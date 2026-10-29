@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Developmen</title>
+<meta name="description" content="The Developmen is a two-man studio from Stockholm. We design, build and run our own digital products, among them Whossa and Lottery Clash.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Developmen">
+<meta property="og:description" content="And so it begins. A two-man studio from Stockholm building our own digital products.">
+<meta property="og:url" content="https://thedevmen.com/">
+<meta property="og:image" content="https://thedevmen.com/assets/img/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/fonts/bebas-neue.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/smokum.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Smokum";src:url(assets/fonts/smokum.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Bebas Neue";src:url(assets/fonts/bebas-neue.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Archivo Narrow";src:url(assets/fonts/archivo-narrow-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Archivo Narrow";src:url(assets/fonts/archivo-narrow-700.woff2) format("woff2");font-weight:700;font-display:swap}
+
+:root{
+  --black:#000;
+  --ink:#0b0705;
+  --gold:#f5a90e;
+  --gold-soft:#f4c24a;
+  --cream:#efd9a3;
+  --text:#e9e1d3;
+  --muted:#a89a86;
+  --rust:#7a1d0c;
+  --gutter:clamp(16px,4vw,48px);
+  /* hero stage: keeps the 16:9 composition, covers the screen */
+  --W:max(100vw,140svh);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--black);overflow-x:clip}
+body{background:var(--black);color:var(--text);font-family:"Archivo Narrow","Arial Narrow",system-ui,sans-serif;font-size:19px;line-height:1.6;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:none}
+a{color:inherit}
+
+/* ---------- NAV ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:22px var(--gutter);transition:background .35s,padding .35s,backdrop-filter .35s}
+.nav.scrolled{background:rgba(0,0,0,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:14px;padding-bottom:14px}
+.wordmark{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:21px;letter-spacing:.38em;text-decoration:none;color:#fff;white-space:nowrap}
+.nav ul{display:flex;gap:clamp(18px,3vw,48px);list-style:none}
+.nav ul a{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:21px;letter-spacing:.1em;text-decoration:none;color:#fff;position:relative;padding:4px 0}
+.nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nav ul a:hover::after,.nav ul a:focus-visible::after{transform:scaleX(1)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;height:100svh;min-height:520px;overflow-x:clip}
+.hero h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.stage{position:absolute;top:0;left:50%;width:var(--W);height:calc(var(--W) * .5625);transform:translateX(-50%);pointer-events:none}
+.layer{position:absolute;will-change:transform}
+.layer img{width:100%;height:auto}
+/* positions measured from the original composition */
+.l-bg{z-index:1;width:114%;left:-7%;top:-59%}
+.l-logo{z-index:2;width:64.7%;left:17.65%;top:4.4%}
+.l-cowboys{z-index:3;width:107%;left:-3.5%;top:29.8%}
+.l-cowboys img{-webkit-mask-image:linear-gradient(to bottom,#000 62%,transparent 92%);mask-image:linear-gradient(to bottom,#000 62%,transparent 92%)}
+
+/* load-in */
+.l-bg img{animation:bgIn 1.6s cubic-bezier(.2,.7,.2,1) both}
+.l-logo img{animation:logoIn 1.2s .35s cubic-bezier(.2,.8,.2,1.15) both}
+.l-cowboys img{animation:riderIn 1.4s .15s cubic-bezier(.2,.7,.2,1) both}
+@keyframes bgIn{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:none}}
+@keyframes logoIn{from{opacity:0;transform:translateY(-6%) scale(.94)}to{opacity:1;transform:none}}
+@keyframes riderIn{from{opacity:0;transform:translateY(6%)}to{opacity:1;transform:none}}
+
+.scroll-cue{position:absolute;left:50%;bottom:28px;z-index:6;transform:translateX(-50%);width:44px;height:44px;border:2px solid rgba(239,217,163,.7);border-radius:50%;
+  display:grid;place-items:center;color:var(--cream);text-decoration:none;animation:cue 2.4s 1.8s ease-in-out infinite both}
+.scroll-cue{transition:opacity .4s}
+body.scrolled .scroll-cue{opacity:0;pointer-events:none;animation:none}
+.scroll-cue svg{width:18px;height:18px}
+@keyframes cue{0%,100%{transform:translate(-50%,0);opacity:.85}50%{transform:translate(-50%,6px);opacity:1}}
+
+/* Phones and narrow windows: stack logo above riders */
+@media (max-aspect-ratio: 6/5){
+  .stage{width:100vw;height:100svh;left:0;transform:none}
+  .l-bg{width:max(100vw,102svh);left:calc((100vw - max(100vw,102svh)) / 2);top:0}
+  .l-logo{width:92vw;left:4vw;top:max(84px,15svh)}
+  .l-cowboys{width:140vw;left:-20vw;top:auto;bottom:0}
+  .l-cowboys img{-webkit-mask-image:none;mask-image:none}
+}
+
+/* ---------- CONTENT ---------- */
+.content{position:relative;z-index:5;background:linear-gradient(to bottom,rgba(0,0,0,0) 0,var(--black) 30vh)}
+section{padding:clamp(64px,9vw,130px) var(--gutter);scroll-margin-top:40px}
+.content > section:first-child{padding-top:clamp(240px,40vh,440px)}
+.wrap{max-width:780px;margin:0 auto;text-align:center}
+.wide{max-width:1240px}
+
+.eyebrow{display:flex;align-items:center;justify-content:center;gap:16px;font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:19px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;margin-bottom:22px}
+.eyebrow::before,.eyebrow::after{content:"";width:clamp(40px,8vw,110px);height:5px;background:var(--gold)}
+.eyebrow::before{clip-path:polygon(0 50%,100% 0,100% 100%)}
+.eyebrow::after{clip-path:polygon(0 0,100% 50%,0 100%)}
+
+h2{font-family:"Smokum",Georgia,serif;font-weight:400;font-size:clamp(46px,8vw,96px);line-height:.98;color:var(--cream);letter-spacing:.01em;text-transform:uppercase;margin-bottom:28px}
+p{color:var(--text);max-width:62ch;margin:0 auto 1em}
+p.lead{font-size:clamp(20px,2.1vw,23px)}
+.divider{width:clamp(60px,10vw,120px);height:5px;margin:clamp(40px,5vw,64px) auto;background:var(--gold);clip-path:polygon(0 50%,50% 0,100% 50%,50% 100%)}
+.subhead{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:clamp(34px,4.4vw,52px);line-height:1;letter-spacing:.04em;color:var(--cream);margin-bottom:24px;text-wrap:balance}
+p.signoff{font-family:"Bebas Neue",Impact,sans-serif;font-size:clamp(26px,2.6vw,32px);letter-spacing:.12em;color:var(--gold);margin-top:1.4em}
+
+/* projects */
+.project{margin-top:clamp(56px,8vw,110px)}
+.project h3{font-family:"Smokum",Georgia,serif;font-weight:400;font-size:clamp(40px,6vw,72px);line-height:1;color:var(--gold-soft);text-transform:uppercase;margin-bottom:10px}
+.project .tag{color:var(--muted);margin-bottom:26px}
+.panel{border-radius:clamp(12px,1.6vw,22px);overflow:hidden;box-shadow:0 30px 80px -30px rgba(245,169,14,.25),0 0 0 1px rgba(255,255,255,.06)}
+.panel img{width:100%;height:auto}
+.screens{list-style:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(16px,2.4vw,36px);margin-top:40px;padding:clamp(28px,4vw,56px) 0 0;
+  background:radial-gradient(60% 55% at 50% 38%,rgba(110,70,200,.22),transparent 75%)}
+.screen{min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center}
+.screen img{width:100%;max-width:230px;height:auto;margin-bottom:22px;filter:drop-shadow(0 26px 34px rgba(0,0,0,.65))}
+.screen h4{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:clamp(24px,2vw,29px);line-height:1.02;letter-spacing:.03em;color:var(--cream);margin-bottom:10px;text-wrap:balance}
+.screen p{font-size:16px;line-height:1.55;color:var(--muted);margin:0}
+.swipe-hint{display:none;font-family:"Bebas Neue",Impact,sans-serif;font-size:18px;letter-spacing:.1em;color:var(--muted);margin-top:18px}
+.screens-lc{background:radial-gradient(60% 55% at 50% 38%,rgba(230,110,20,.2),transparent 75%)}
+@media (max-width:1000px){
+  .screens{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:clamp(200px,40vw,300px);overflow-x:auto;scroll-snap-type:x mandatory;
+    margin-inline:calc(-1 * var(--gutter));padding-inline:var(--gutter);scroll-padding-inline:var(--gutter);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .screens::-webkit-scrollbar{display:none}
+  .screen{scroll-snap-align:start}
+  .swipe-hint{display:block}
+}
+@media (max-width:600px){.screens{grid-auto-columns:68vw}}
+.visit{display:inline-block;margin-top:22px;font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:21px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:3px}
+.visit:hover{color:var(--cream)}
+
+/* contact */
+.mail{display:inline-block;margin-top:18px;font-family:"Smokum",Georgia,serif;font-size:clamp(34px,6vw,68px);line-height:1.1;color:var(--gold);text-decoration:none;word-break:break-word;
+  background:linear-gradient(var(--gold),var(--gold)) 0 100%/0 3px no-repeat;transition:background-size .4s,color .3s}
+.mail:hover{background-size:100% 3px;color:var(--cream)}
+
+footer{padding:40px var(--gutter) 48px;text-align:center;color:var(--muted);font-family:"Bebas Neue",Impact,sans-serif;font-size:17px;letter-spacing:.14em;border-top:1px solid rgba(255,255,255,.08)}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:700px){
+  body{font-size:18px}
+  .wordmark{display:none}
+  .nav{justify-content:center}
+  .nav ul a{font-size:19px;letter-spacing:.12em}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .layer img,.scroll-cue{animation:none}
+  .reveal{opacity:1;transform:none;transition:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Main">
+  <a class="wordmark" href="#top">THE DEVELOPMEN</a>
+  <ul>
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#projects">PROJECTS</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+</nav>
+
+<header class="hero" id="top">
+  <h1>The Developmen – And so it begins</h1>
+  <div class="stage">
+    <div class="layer l-bg" data-speed="0.55" data-drift="10">
+      <img src="assets/img/hero-bg-1400.webp" srcset="assets/img/hero-bg-1400.webp 1400w, assets/img/hero-bg-2752.webp 2752w" sizes="120vw" alt="" fetchpriority="high">
+    </div>
+    <div class="layer l-logo" data-speed="0.32" data-drift="16">
+      <img src="assets/img/logo-800.webp" srcset="assets/img/logo-800.webp 800w, assets/img/logo-1450.webp 1450w" sizes="(max-aspect-ratio: 6/5) 92vw, 65vw" alt="The Developmen – And so it begins" fetchpriority="high">
+    </div>
+    <div class="layer l-cowboys" data-speed="-0.06" data-drift="30">
+      <img src="assets/img/cowboys-1400.webp" srcset="assets/img/cowboys-1400.webp 1400w, assets/img/cowboys-2752.webp 2752w" sizes="(max-aspect-ratio: 6/5) 140vw, 110vw" alt="">
+    </div>
+  </div>
+  <a class="scroll-cue" href="#about" aria-label="Scroll to About">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+  </a>
+</header>
+
+<main class="content">
+
+  <section id="about">
+    <div class="wrap reveal">
+      <div class="eyebrow">About</div>
+      <h2>Two riders.<br>One mission.</h2>
+      <p class="lead">We spot gaps in the mobile gaming and iGaming market—and build businesses to fill them.</p>
+      <p>At The Developmen, we turn opportunities into minimum viable products, test them with real users, and refine until we have evidence they work. Once validated, we move fast—scaling aggressively across multiple markets, with a clear exit strategy from the outset.</p>
+      <div class="divider" aria-hidden="true"></div>
+      <h3 class="subhead">Ideas are easy.<br>Execution is everything.</h3>
+      <p>We built, launched, and now run Whossa—a profitable product operating across 16 markets. We know how to bring a product to market, acquire users, and turn growth into a sustainable business.</p>
+      <p>Behind it all? The two of us, supported by a handful of freelancers. A lean team with hands-on experience across development, growth strategy, and day-to-day operations.</p>
+      <p class="signoff">And so it begins.</p>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap wide">
+      <div class="reveal">
+        <div class="eyebrow">Projects</div>
+        <h2>What we've built</h2>
+      </div>
+
+      <article class="project reveal">
+        <h3>Whossa</h3>
+        <p class="tag">Live mobile scratch tickets. Play, chat and win with your friends.</p>
+        <ul class="screens">
+          <li class="screen">
+            <img src="assets/img/whossa-friends.webp" width="520" height="1030" alt="A shared friend game waiting to be unlocked" loading="lazy">
+            <h4>Play and chat with friends!</h4>
+            <p>More friends means more chances to win! Invite your friends to play via Whossa, Facebook or text. You can even chat with your friends right in the app.</p>
+          </li>
+          <li class="screen">
+            <img src="assets/img/whossa-spin.webp" width="520" height="1030" alt="The Lucky Spin bonus wheel" loading="lazy">
+            <h4>Lucky winner of the day or week!</h4>
+            <p>The Lucky Spin starts after you’ve finished your daily games. This is where you win Lucky Coins and earn a ranking on the daily LUCKY&nbsp;3 and weekly LUCKY&nbsp;50.</p>
+          </li>
+          <li class="screen">
+            <img src="assets/img/whossa-payout.webp" width="520" height="1030" alt="A winning scratch ticket showing a 1000 SEK prize" loading="lazy">
+            <h4>Lightning fast cash payouts!</h4>
+            <p>Yay! You’re a Winner! Your winnings are paid out instantly and the money will be in your account within a minute.</p>
+          </li>
+          <li class="screen">
+            <img src="assets/img/whossa-jackpot.webp" width="520" height="1030" alt="The Jackpot screen with a chest of gold coins" loading="lazy">
+            <h4>Take a chance to win our Jackpot!</h4>
+            <p>If you manage to scratch three golden Ws, you are one of our Jackpot winners. It grows steadily every day and can be as big as you like.</p>
+          </li>
+          <li class="screen">
+            <img src="assets/img/whossa-signup.webp" width="520" height="1030" alt="The Whossa log-in and sign-up screen" loading="lazy">
+            <h4>Create an account<br>in no time!</h4>
+            <p>Playing Whossa couldn’t be easier than this. All you need is your email, a nice username and a clever password. Then you’re good to go.</p>
+          </li>
+        </ul>
+        <div class="swipe-hint">Swipe to see more →</div>
+        <a class="visit" href="https://whossa.com" target="_blank" rel="noopener">Visit whossa.com</a>
+      </article>
+
+      <article class="project reveal">
+        <h3>Lottery Clash</h3>
+        <p class="tag">A licensed lottery with a Wild West twist. Scratch, roll and pick your way to the Grand Jackpot.</p>
+        <ul class="screens screens-lc">
+          <li class="screen">
+            <img src="assets/img/lc-tiers.webp" width="520" height="1030" alt="The Lottery Clash home screen with the Grand Jackpot and three game tiers" loading="lazy">
+            <h4>Pick your tier!</h4>
+            <p>Three games, three stakes. Start with a $1 scratch, step up to the $5 board game or go for the $10 jackpot draw. Every ticket feeds the Grand Jackpot, which grows every second.</p>
+          </li>
+          <li class="screen">
+            <img src="assets/img/lc-scratch.webp" width="520" height="1030" alt="A Scratch Rush ticket with nine tiles to scratch" loading="lazy">
+            <h4>Scratch, match, win!</h4>
+            <p>Scratch Rush is the classic, done right. Scratch all nine tiles and match three to win, with a $1,000 jackpot on every ticket.</p>
+          </li>
+          <li class="screen">
+            <img src="assets/img/lc-powerplay.webp" width="520" height="1030" alt="The Power Play board game in Lucky Valley" loading="lazy">
+            <h4>Ride through Lucky&nbsp;Valley!</h4>
+            <p>Power Play turns the lottery into a board game. Roll the dice, collect cash and multipliers, dodge the dynamite and race for the Grand Chest.</p>
+          </li>
+          <li class="screen">
+            <img src="assets/img/lc-jackpot.webp" width="520" height="1030" alt="The Jackpot Strike number picker" loading="lazy">
+            <h4>Build your rows!</h4>
+            <p>In Jackpot Strike you pick seven numbers, or let us pick for you, and join the Grand Jackpot draw. Mini draws with sponsored prizes, like a brand new car, keep things exciting in between.</p>
+          </li>
+          <li class="screen">
+            <img src="assets/img/lc-team.webp" width="520" height="1030" alt="The Team Play screen with team rows and leaderboard" loading="lazy">
+            <h4>Play together,<br>win together!</h4>
+            <p>Team up with up to ten friends, cover more numbers and share the win. Chat with your crew and climb the team leaderboard together.</p>
+          </li>
+        </ul>
+        <div class="swipe-hint">Swipe to see more →</div>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap reveal">
+      <div class="eyebrow">Contact</div>
+      <h2>Let's have a chat</h2>
+      <p class="lead">Got an idea, a project or just a question? Send us a line and we'll get back to you.</p>
+      <a class="mail" href="mailto:info@thedevmen.com">info@thedevmen.com</a>
+    </div>
+  </section>
+
+  <footer>© <span id="yr">2026</span> The Developmen · Stockholm</footer>
+</main>
+
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  var layers=[].slice.call(document.querySelectorAll('.layer'));
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine=window.matchMedia('(pointer: fine)').matches;
+  var mx=0,my=0,tx=0,ty=0,ticking=false;
+  document.getElementById('yr').textContent=new Date().getFullYear();
+
+  function render(){
+    ticking=false;
+    var y=window.scrollY;
+    nav.classList.toggle('scrolled',y>40);
+    document.body.classList.toggle('scrolled',y>60);
+    if(reduce)return;
+    tx+=(mx-tx)*.08; ty+=(my-ty)*.08;
+    if(y<window.innerHeight*1.6){
+      layers.forEach(function(l){
+        var s=parseFloat(l.dataset.speed), d=parseFloat(l.dataset.drift);
+        l.style.transform='translate3d('+(tx*d).toFixed(2)+'px,'+(y*s+ty*d*.5).toFixed(2)+'px,0)';
+      });
+    }
+    if(Math.abs(mx-tx)>.001||Math.abs(my-ty)>.001)request();
+  }
+  function request(){if(!ticking){ticking=true;requestAnimationFrame(render);}}
+  window.addEventListener('scroll',request,{passive:true});
+  window.addEventListener('resize',request);
+  if(fine&&!reduce){
+    window.addEventListener('mousemove',function(e){
+      mx=(e.clientX/window.innerWidth-.5)*-1;
+      my=(e.clientY/window.innerHeight-.5)*-1;
+      request();
+    },{passive:true});
+  }
+  render();
+
+  var items=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window&&!reduce){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{rootMargin:'0px 0px -10% 0px'});
+    items.forEach(function(el){io.observe(el)});
+  }else{items.forEach(function(el){el.classList.add('in')});}
+})();
+</script>
+</body>
+</html>
