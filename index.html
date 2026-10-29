@@ -84,7 +84,7 @@ body.scrolled .scroll-cue{opacity:0;pointer-events:none;animation:none}
   .l-bg{width:max(100vw,102svh);left:calc((100vw - max(100vw,102svh)) / 2);top:0}
   .l-logo{width:92vw;left:4vw;top:max(84px,15svh)}
   .l-cowboys{width:140vw;left:-20vw;top:auto;bottom:0}
-  .l-cowboys img{-webkit-mask-image:none;mask-image:none}
+  .l-cowboys img{-webkit-mask-image:linear-gradient(to bottom,#000 80%,transparent 99%);mask-image:linear-gradient(to bottom,#000 80%,transparent 99%)}
 }
 
 /* ---------- CONTENT ---------- */
@@ -169,13 +169,13 @@ footer{padding:40px var(--gutter) 48px;text-align:center;color:var(--muted);font
 <header class="hero" id="top">
   <h1>The Developmen – And so it begins</h1>
   <div class="stage">
-    <div class="layer l-bg" data-speed="0.55" data-drift="10">
+    <div class="layer l-bg" data-speed="0.55" data-speed-m="0.5" data-drift="10">
       <img src="assets/img/hero-bg-1400.webp" srcset="assets/img/hero-bg-1400.webp 1400w, assets/img/hero-bg-2752.webp 2752w" sizes="120vw" alt="" fetchpriority="high">
     </div>
-    <div class="layer l-logo" data-speed="0.32" data-drift="16">
+    <div class="layer l-logo" data-speed="0.32" data-speed-m="0.2" data-drift="16">
       <img src="assets/img/logo-800.webp" srcset="assets/img/logo-800.webp 800w, assets/img/logo-1450.webp 1450w" sizes="(max-aspect-ratio: 6/5) 92vw, 65vw" alt="The Developmen – And so it begins" fetchpriority="high">
     </div>
-    <div class="layer l-cowboys" data-speed="-0.06" data-drift="30">
+    <div class="layer l-cowboys" data-speed="-0.06" data-speed-m="0.5" data-drift="30">
       <img src="assets/img/cowboys-1400.webp" srcset="assets/img/cowboys-1400.webp 1400w, assets/img/cowboys-2752.webp 2752w" sizes="(max-aspect-ratio: 6/5) 140vw, 110vw" alt="">
     </div>
   </div>
@@ -294,6 +294,7 @@ footer{padding:40px var(--gutter) 48px;text-align:center;color:var(--muted);font
   var layers=[].slice.call(document.querySelectorAll('.layer'));
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine=window.matchMedia('(pointer: fine)').matches;
+  var narrow=window.matchMedia('(max-aspect-ratio: 6/5)');
   var mx=0,my=0,tx=0,ty=0,ticking=false;
   document.getElementById('yr').textContent=new Date().getFullYear();
 
@@ -306,7 +307,7 @@ footer{padding:40px var(--gutter) 48px;text-align:center;color:var(--muted);font
     tx+=(mx-tx)*.08; ty+=(my-ty)*.08;
     if(y<window.innerHeight*1.6){
       layers.forEach(function(l){
-        var s=parseFloat(l.dataset.speed), d=parseFloat(l.dataset.drift);
+        var s=parseFloat(narrow.matches&&l.dataset.speedM?l.dataset.speedM:l.dataset.speed), d=parseFloat(l.dataset.drift);
         l.style.transform='translate3d('+(tx*d).toFixed(2)+'px,'+(y*s+ty*d*.5).toFixed(2)+'px,0)';
       });
     }
