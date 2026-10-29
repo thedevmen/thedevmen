@@ -55,7 +55,19 @@ a{color:inherit}
 .hero{position:relative;height:100svh;min-height:520px;overflow-x:clip}
 .hero h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .stage{position:absolute;top:0;left:50%;width:var(--W);height:calc(var(--W) * .5625);transform:translateX(-50%);pointer-events:none}
-.layer{position:absolute;will-change:transform}
+.layer{position:absolute;will-change:transform,translate}
+/* Parallax speeds. Phones and narrow screens use their own values below. */
+.l-bg{--sp:.55}.l-logo{--sp:.32}.l-cowboys{--sp:-.06}
+@media (max-aspect-ratio: 6/5){.l-bg{--sp:.5}.l-logo{--sp:.2}.l-cowboys{--sp:.5}}
+/* Scroll parallax run by the browser itself (smooth on iPhone). Older browsers fall back to the script. */
+@keyframes parallax{from{translate:0 0}to{translate:0 calc(var(--sp) * 1500px)}}
+@supports (animation-timeline: scroll()){
+  @media (prefers-reduced-motion: no-preference){
+    .layer{animation:parallax linear both;animation-timeline:scroll(root block);animation-range:0px 1500px}
+  }
+}
+/* Blurring the menu bar over moving images stutters on touch screens */
+@media (pointer: coarse){.nav.scrolled{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(0,0,0,.85)}}
 .layer img{width:100%;height:auto}
 /* positions measured from the original composition */
 .l-bg{z-index:1;width:114%;left:-7%;top:-59%}
@@ -295,6 +307,7 @@ footer{padding:40px var(--gutter) 48px;text-align:center;color:var(--muted);font
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine=window.matchMedia('(pointer: fine)').matches;
   var narrow=window.matchMedia('(max-aspect-ratio: 6/5)');
+  var cssScroll=window.CSS&&CSS.supports&&CSS.supports('animation-timeline','scroll()');
   var mx=0,my=0,tx=0,ty=0,ticking=false;
   document.getElementById('yr').textContent=new Date().getFullYear();
 
@@ -305,7 +318,9 @@ footer{padding:40px var(--gutter) 48px;text-align:center;color:var(--muted);font
     document.body.classList.toggle('scrolled',y>60);
     if(reduce)return;
     tx+=(mx-tx)*.08; ty+=(my-ty)*.08;
-    if(y<window.innerHeight*1.6){
+    if(cssScroll){
+      if(fine) layers.forEach(function(l){var d=parseFloat(l.dataset.drift);l.style.transform='translate3d('+(tx*d).toFixed(2)+'px,'+(ty*d*.5).toFixed(2)+'px,0)';});
+    }else if(y<window.innerHeight*1.6){
       layers.forEach(function(l){
         var s=parseFloat(narrow.matches&&l.dataset.speedM?l.dataset.speedM:l.dataset.speed), d=parseFloat(l.dataset.drift);
         l.style.transform='translate3d('+(tx*d).toFixed(2)+'px,'+(y*s+ty*d*.5).toFixed(2)+'px,0)';
